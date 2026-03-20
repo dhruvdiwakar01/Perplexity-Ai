@@ -19,7 +19,7 @@ authRouter.post("/register", registerValidator, register);
  * @access Public
  * @body { email, password }
  */
-authRouter.post("/login", loginValidator , login )
+authRouter.post("/login", loginValidator , login );
 
 /**
  * @route POST /api/auth/get-me
@@ -36,7 +36,7 @@ authRouter.get("/get-me", authUser , getMe)
 /**
  * verify email
  */
-authRouter.get("/varify-email", verifyEmail )
+authRouter.get("/verify-email", verifyEmail)
 
 
 

@@ -101,7 +101,7 @@ export async function login(req, res){
 
     if(!user.verified){
         return res.status(400).json({
-            message: "Please verify yoour email before logging in",
+            message: "Please verify your email before logging in",
             success: false,
             err: "Email not verified"
         })
@@ -319,7 +319,7 @@ export async function verifyEmail(req, res) {
     <h1>Email Verified Successfully!</h1>
     <p class="desc">Your email has been verified. You can now access the dashboard and start exploring. Thank you for joining Perplexity!</p>
     <div class="divider"></div>
-    <a href="http://localhost:3000/login" class="btn">
+    <a href="http://localhost:5173/login" class="btn">
       Go to Login Page
       <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
