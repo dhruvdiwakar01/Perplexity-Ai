@@ -26,13 +26,11 @@ export async function register(req, res) {
         email: user.email,    
     }, process.env.JWT_SECRET)
 
-await sendEmail({
-    to: email,
-    subject: "Welcome to Perplexity!",
-    html: `
+    await sendEmail({
+        to: email,
+        subject: "Welcome to Perplexity!",
+        html: `
         <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
-            
-            <!-- Header -->
             <div style="background: #1a1a2e; padding: 36px 40px; text-align: center;">
                 <img src="https://w7.pngwing.com/pngs/316/257/png-transparent-new-perplexity-ai-logo-tech-companies.png" 
                      alt="Perplexity AI" 
@@ -40,33 +38,26 @@ await sendEmail({
                 <h1 style="color: #ffffff; font-size: 22px; margin: 0; font-weight: 700;">Welcome to Perplexity</h1>
                 <p style="color: #a0a0b8; font-size: 13px; margin: 6px 0 0;">Your AI-powered answer engine</p>
             </div>
-
-            <!-- Body -->
             <div style="padding: 36px 40px; color: #3d3d50;">
                 <p style="font-size: 15px; line-height: 1.7; margin: 0 0 14px;">Hi <strong style="color: #1a1a2e;">${username}</strong>,</p>
                 <p style="font-size: 15px; line-height: 1.7; margin: 0 0 14px;">Thank you for registering at <strong style="color: #1a1a2e;">Perplexity</strong>. We're excited to have you on board!</p>
                 <p style="font-size: 15px; line-height: 1.7; margin: 0 0 24px;">Start exploring answers instantly — just ask anything and let Perplexity do the rest.</p>
-                
                 <a href="${BACKEND_URL}/api/auth/verify-email?token=${emailVarificationToken}" 
                    style="display: inline-block; padding: 12px 28px; background: #1a1a2e; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 600;">
                     Verify Email →
                 </a>
-
                 <hr style="border: none; border-top: 1px solid #ececf3; margin: 28px 0;" />
                 <p style="font-size: 15px; line-height: 1.7; margin: 0;">Best regards,<br><strong style="color: #1a1a2e;">The Perplexity Team</strong></p>
             </div>
-
-            <!-- Footer -->
             <div style="background: #f9f9fc; padding: 20px 40px; text-align: center; border-top: 1px solid #ececf3;">
                 <p style="font-size: 12px; color: #9090a8; margin: 0; line-height: 1.6;">
                     You're receiving this because you signed up at perplexity.ai<br/>
                     © ${new Date().getFullYear()} Perplexity AI. All rights reserved.
                 </p>
             </div>
-
         </div>
     `
-})
+    })
 
     res.status(201).json({
         message: "User registered successfully",
@@ -90,6 +81,7 @@ export async function login(req, res){
             err: "user not found"
         })
     }
+
     const isPasswordMatch = await user.comparePassword(password);
 
     if(!isPasswordMatch){
@@ -113,7 +105,13 @@ export async function login(req, res){
         username: user.username,
         email: user.email
     }, process.env.JWT_SECRET, {expiresIn: '7d'})
-    res.cookie("token", token)
+
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+    })
+
     res.status(200).json({
         message: "Login successful",
         success: true,
