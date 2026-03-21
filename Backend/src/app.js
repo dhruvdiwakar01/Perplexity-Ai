@@ -14,7 +14,7 @@ app.use(morgan("dev"))
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://your-app-frontend.onrender.com" // ⬅️ add this after frontend is deployed
+    "https://perplexity-ai-1.onrender.com"  // ✅ real frontend URL
   ],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
